@@ -619,3 +619,66 @@ html.is-modal-open,body.is-modal-open{overflow:hidden}
 .mod-banner--expired{background:#fff3cd;border-bottom-color:#f59e0b}
 .mod-banner--expired .mod-banner__text{color:#92400e}
 
+
+/* ===== LINE誘導 CTA / FAB ===== */
+.line-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#06c755;color:#fff;
+  padding:10px 18px;border-radius:999px;
+  font-size:13px;font-weight:900;
+  text-decoration:none;
+  box-shadow:0 4px 12px rgba(6,199,85,0.30);
+  transition:transform .1s ease, box-shadow .1s ease, filter .1s ease;
+  white-space:nowrap;
+}
+.line-cta:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(6,199,85,0.40);filter:brightness(1.05)}
+.line-cta__icon{font-size:16px;line-height:1}
+.line-cta__text{line-height:1}
+.line-cta--footer{margin-top:4px;flex-shrink:0}
+
+@media (max-width: 720px){
+  .line-cta__text{display:none}
+  .line-cta{padding:10px 14px}
+  .line-cta__icon{font-size:18px}
+}
+
+.footer__links{margin-top:8px;font-size:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.footer__links a{color:var(--accent);text-decoration:none}
+.footer__links a:hover{text-decoration:underline}
+.footer__sep{color:var(--muted)}
+
+/* LINE フローティングボタン (旧AIチャットウィジェット位置) */
+.line-fab{
+  position:fixed;right:20px;bottom:20px;z-index:50;
+  display:flex;align-items:flex-end;flex-direction:column;gap:8px;
+  text-decoration:none;
+}
+.line-fab__bubble{
+  background:#06c755;color:#fff;
+  padding:8px 14px;border-radius:18px 18px 4px 18px;
+  font-size:13px;font-weight:900;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  white-space:nowrap;
+  animation:line-fab-bounce 2s ease-in-out infinite;
+}
+.line-fab__char{
+  width:64px;height:64px;border-radius:50%;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(6,199,85,0.40), 0 2px 4px rgba(0,0,0,0.10);
+  border:3px solid #06c755;
+  background:#fff;
+  transition:transform .15s ease;
+}
+.line-fab:hover .line-fab__char{transform:scale(1.08)}
+.line-fab__char img{width:100%;height:100%;object-fit:cover;display:block}
+
+@keyframes line-fab-bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+
+@media (max-width: 720px){
+  .line-fab{right:14px;bottom:14px}
+  .line-fab__bubble{font-size:12px;padding:6px 12px}
+  .line-fab__char{width:56px;height:56px}
+}

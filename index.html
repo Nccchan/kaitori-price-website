@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>にこにこ買取 | トレカ買取価格表</title>
-  <meta name="description" content="にこにこ買取のトレーディングカード買取価格表。ポケモンカード・ONE PIECE・ドラゴンボールの最新買取価格をご確認いただけます。">
+  <meta name="description" content="にこにこ買取のトレーディングカード買取価格表。ポケモンカード・ONE PIECE・ドラゴンボール・遊戯王の最新買取価格をご確認いただけます。査定・お申込はLINEで承ります。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -26,20 +26,15 @@
         <div class="header__meta">
           <div class="header__updated">更新日: <span id="updatedAt">—</span></div>
           <div class="header__note">買取価格は翌日到着分のみ有効です</div>
-          <div class="header__note">すべてパックの画像を使用していますが、ブースターボックスの価格です</div>
+          <div class="header__note">画像はパックですが、価格はブースターボックスです</div>
         </div>
-        <button id="cartHeaderBtn" class="cart-header-btn" type="button" aria-label="カート (0点)">
-          🛒
-          <span id="cartBadge" class="cart-badge" hidden>0</span>
-        </button>
+        <a id="headerLineBtn" class="line-cta" href="https://line.me/R/ti/p/@niko_kaitori" target="_blank" rel="noopener noreferrer">
+          <span class="line-cta__icon" aria-hidden="true">💬</span>
+          <span class="line-cta__text">LINEで査定・申込</span>
+        </a>
       </div>
     </div>
   </header>
-
-  <!-- テストモードバナー（?testMode=1 のときのみ表示） -->
-  <div id="testModeBanner" class="testmode-banner" hidden>
-    🧪 テストモード：申込はAPIに送信されません
-  </div>
 
   <!-- 募集停止バナー（スプレッドシート「設定」シートのA1=0 のときのみ表示） -->
   <div id="closedBanner" class="closed-banner" hidden>
@@ -52,18 +47,6 @@
     </div>
   </div>
 
-  <div id="modificationBanner" class="mod-banner" hidden>
-    <div class="mod-banner__body">
-      <span class="mod-banner__icon">✏️</span>
-      <span class="mod-banner__text">申込（受付ID: <strong id="modBannerCode"></strong>）を変更できます</span>
-      <span id="modBannerTimer" class="mod-banner__timer"></span>
-    </div>
-    <div class="mod-banner__actions">
-      <button class="mod-banner__btn" type="button" onclick="startModification()">変更する</button>
-      <button class="mod-banner__close" type="button" onclick="dismissModificationBanner()" aria-label="閉じる">×</button>
-    </div>
-  </div>
-
   <nav class="tabs" aria-label="カテゴリ">
     <div class="container tabs__inner">
       <button class="tab is-active" data-category="pokemon" type="button">⚡ ポケモンカード</button>
@@ -72,33 +55,6 @@
       <button class="tab" data-category="yugioh" type="button">✨ 遊戯王</button>
     </div>
   </nav>
-
-  <!-- クイックナビ -->
-  <div class="quicknav">
-    <div class="container quicknav__inner">
-      <a href="#howto" class="quicknav__btn quicknav__btn--howto">📋 ご利用方法・注意事項</a>
-      <a href="#howto" class="quicknav__btn quicknav__btn--docs">📄 必要書類を確認する</a>
-      <a href="#howto" class="quicknav__btn quicknav__btn--ship">📦 送料・発送について</a>
-    </div>
-  </div>
-
-  <!-- 送料無料バナー -->
-  <div class="shipping-banner">
-    <div class="container shipping-banner__inner">
-      <div class="shipping-banner__left">
-        <div class="shipping-banner__tag">🎁 送料無料キャンペーン実施中</div>
-        <div class="shipping-banner__headline">
-          <span class="shipping-banner__num">30<span class="shipping-banner__unit">箱</span>以上</span>
-          <span class="shipping-banner__de">で</span>
-          <span class="shipping-banner__free">全国送料無料</span>
-        </div>
-        <div class="shipping-banner__cond">ヤマト運輸ご利用・<strong>着払いOK</strong><span class="shipping-banner__exc">（北海道・沖縄・離島は元払い）</span></div>
-        <div class="shipping-banner__guide">📦 120サイズ目安：ポケモン <strong>50箱</strong> / ワンピース <strong>40箱</strong></div>
-        <div class="shipping-banner__note">※ 過剰梱包（過度に大きな箱・極端な分割）と弊社が判断した場合は適用外となります</div>
-      </div>
-      <div class="shipping-banner__truck" aria-hidden="true">🚚</div>
-    </div>
-  </div>
 
   <main class="main">
     <div class="container">
@@ -139,7 +95,6 @@
               <th>型式</th>
               <th class="th-price" id="th-shrink">シュリンクあり</th>
               <th class="th-price" id="th-noshrink">シュリンクなし</th>
-              <th class="th-action">申込</th>
             </tr>
           </thead>
           <tbody id="tbody"></tbody>
@@ -148,172 +103,22 @@
     </div>
   </main>
 
-  <!-- ご利用方法 -->
-  <section class="howto" id="howto">
-    <div class="container">
-      <h2 class="howto__title">ご利用方法</h2>
-      <p class="howto__lead">郵送買取の流れ — 簡単6ステップで完了します</p>
-
-      <div class="howto__steps">
-        <div class="howto__step">
-          <div class="howto__step-num">1</div>
-          <div class="howto__step-body">
-            <div class="howto__step-title">価格表で商品を確認</div>
-            <div class="howto__step-text">このページの価格表でお手持ちの商品の買取価格をご確認ください。ご不明な点は公式LINEからお気軽に写真や商品情報をお送りください。</div>
-          </div>
-        </div>
-
-        <div class="howto__step">
-          <div class="howto__step-num">2</div>
-          <div class="howto__step-body">
-            <div class="howto__step-title">カートに追加して申込</div>
-            <div class="howto__step-text">「カートに追加」ボタンで申込カートに追加 → カート内の「申し込む」ボタンをタップ → お名前・電話番号を入力 → 「利用規約に同意して申し込む」で申込完了。</div>
-          </div>
-        </div>
-
-        <div class="howto__step howto__step--highlight">
-          <div class="howto__step-num">3</div>
-          <div class="howto__step-body">
-            <div class="howto__step-title">買取見積書が自動発行されます</div>
-            <div class="howto__step-text">申込完了後、<strong>買取見積書が自動で発行</strong>されます。見積書にはお申込商品・金額・注意事項が記載されています。内容をよくご確認ください。</div>
-          </div>
-        </div>
-
-        <div class="howto__step">
-          <div class="howto__step-num">4</div>
-          <div class="howto__step-body">
-            <div class="howto__step-title">見積書を印刷して商品と一緒に同封</div>
-            <div class="howto__step-text">見積書を印刷し、商品と一緒に箱に入れてください。印刷が難しい場合はスクリーンショットの分割でも可能です。同封がない場合、査定が遅れることがあります。</div>
-          </div>
-        </div>
-
-        <div class="howto__step">
-          <div class="howto__step-num">5</div>
-          <div class="howto__step-body">
-            <div class="howto__step-title">着払いでご発送・追跡番号をLINEで連絡</div>
-            <div class="howto__step-text">ヤマト運輸の<strong>着払い・翌日午前着</strong>でご発送ください。発送後は必ず<strong>追跡番号・お名前をLINEでご連絡</strong>ください。<br><small>※ 発送先住所は申込完了後の見積書・確認メールに記載されます。</small></div>
-          </div>
-        </div>
-
-        <div class="howto__step">
-          <div class="howto__step-num">6</div>
-          <div class="howto__step-body">
-            <div class="howto__step-title">査定・お振込</div>
-            <div class="howto__step-text">到着後の査定結果に基づき、<strong>即日〜3営業日以内</strong>にご指定口座へお振込いたします。振込手数料は10万円以上の場合は弊社負担、10万円未満の場合は300円のみご負担ください。</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 必要書類 -->
-      <div class="howto__docs">
-        <div class="howto__docs-title">📄 必要書類</div>
-
-        <div class="howto__selfie-alert">
-          <div class="howto__selfie-alert__icon">🤳</div>
-          <div class="howto__selfie-alert__body">
-            <div class="howto__selfie-alert__title">毎回必須：セルフィー写真の提出（専用フォームから）</div>
-            <p class="howto__selfie-alert__text">古物営業法（非対面取引規定）により、<strong>本人確認書類を手に持った自撮り写真</strong>を専用フォームからご提出いただく必要があります。<br>eKYCをご利用の場合は不要です。</p>
-          </div>
-        </div>
-
-        <div class="howto__docs-grid">
-          <div class="howto__docs-card howto__docs-card--first">
-            <div class="howto__docs-badge">初回のみ</div>
-            <ul class="howto__docs-list">
-              <li>本人確認書類（免許証・マイナンバーカード等）の<strong>写し</strong></li>
-              <li><strong>＋ 3ヶ月以内に取得した住民票または印鑑証明書の原本</strong></li>
-              <li class="howto__docs-selfie">🤳 本人確認書類を手に持った自撮り写真（専用フォームから提出）</li>
-            </ul>
-          </div>
-          <div class="howto__docs-card howto__docs-card--repeat">
-            <div class="howto__docs-badge">2回目以降</div>
-            <ul class="howto__docs-list">
-              <li>本人確認書類の<strong>写し</strong>のみ</li>
-              <li class="howto__docs-selfie">🤳 本人確認書類を手に持った自撮り写真（専用フォームから提出）</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 使える書類 / 使えない書類 -->
-        <div class="howto__id-types">
-          <div class="howto__id-col howto__id-col--ok">
-            <div class="howto__id-col-title">✅ 使える書類</div>
-            <ul class="howto__id-list">
-              <li>運転免許証</li>
-              <li>健康保険証</li>
-              <li>マイナンバーカード<span class="howto__id-note">（表面のみ・番号は隠してください）</span></li>
-              <li>パスポート<span class="howto__id-note">（住所欄に記載があるもの。ない場合は住民票を追加）</span></li>
-              <li>在留カード / 特別永住者証明書</li>
-            </ul>
-            <p class="howto__id-rule">※ <strong>有効期限内</strong>のものに限ります</p>
-          </div>
-          <div class="howto__id-col howto__id-col--ng">
-            <div class="howto__id-col-title">❌ 使えない書類</div>
-            <ul class="howto__id-list">
-              <li>学生証・社員証</li>
-              <li>クレジットカード・キャッシュカード</li>
-              <li>有効期限切れの書類</li>
-              <li>初回の住民票・印鑑証明書は<strong>コピー不可</strong><span class="howto__id-note">（原本のみ有効）</span></li>
-            </ul>
-            <p class="howto__id-rule">※ 上記の書類では取引をお断りする場合があります</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 注意事項 -->
-      <div class="howto__caution">
-        <div class="howto__caution-title">⚠️ ご注意事項</div>
-        <ul class="howto__caution-list">
-          <li>買取価格の有効期限は<strong>当日発送・翌日弊社到着分のみ</strong>です。遠方等で中1日以上かかる場合は、事前にご申請いただき弊社が承認した場合に限り有効となります。</li>
-          <li><strong>「店舗シール付着」「ハードケース入り」は1点につき200円が自動減額</strong>となります。発送後のキャンセル・返却はできません。減額を避けたい場合は、必ずシールを剥がし・ケースから出した状態でご発送ください。</li>
-        </ul>
-      </div>
-
-      <div class="howto__extras">
-        <div class="howto__campaign">
-          <div class="howto__campaign-icon">🎁</div>
-          <div>
-            <div class="howto__campaign-title">送料無料キャンペーン</div>
-            <div class="howto__campaign-text">適用条件：<strong>30箱以上かつヤマト運輸</strong>のご利用</div>
-            <div class="howto__campaign-regions">
-              <div class="howto__region howto__region--ok">
-                <span class="howto__region-area">全国（下記除く）</span>
-                <span class="howto__region-cond">着払い発送OK・送料無料</span>
-              </div>
-              <div class="howto__region howto__region--ng">
-                <span class="howto__region-area">北海道・沖縄・離島</span>
-                <span class="howto__region-cond">送料お客様負担（元払い）</span>
-              </div>
-            </div>
-            <div class="howto__campaign-notes">
-              <div>※ 適切なサイズの箱をご使用ください。過度に大きな箱は弊社判断で適用外となる場合があります。</div>
-              <div>※ 目安：1梱包60箱（ヤマト12使用時）を超える過剰な分割はお避けください。</div>
-              <div>※ <strong>30箱未満の場合、着払いでご発送いただくと送料が買取金額から差し引かれます。</strong>元払いをおすすめします。</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="howto__packing">
-          <div class="howto__packing-title">📦 梱包のポイント</div>
-          <ul class="howto__packing-list">
-            <li>ダンボールの角への直当たりを防ぐ</li>
-            <li>すき間なく固定された状態にする</li>
-            <li>5箱以上は縦向きに詰める</li>
-            <li>カートンを下層・緩衝材を上部に配置する</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <footer class="footer">
     <div class="container footer__inner">
       <div>
         <div class="footer__brand"><img src="images/logo_horizontal.png" alt="にこにこ買取" class="footer__logo"></div>
         <div class="footer__small">※ 買取価格は毎日更新されます。最新の価格はこのページをご確認ください。</div>
         <div id="footerNote" class="footer__small">※ シュリンクなし価格が空欄の商品は、シュリンクなしでのお取り扱いがございません。</div>
+        <div class="footer__links">
+          <a href="./terms.html">利用規約</a>
+          <span class="footer__sep">/</span>
+          <a href="https://x.com/niko_kaitori" target="_blank" rel="noopener noreferrer">X: @niko_kaitori</a>
+        </div>
       </div>
-      <a class="xlink" href="https://x.com/niko_kaitori" target="_blank" rel="noopener noreferrer">X: @niko_kaitori</a>
+      <a class="line-cta line-cta--footer" href="https://line.me/R/ti/p/@niko_kaitori" target="_blank" rel="noopener noreferrer">
+        <span class="line-cta__icon" aria-hidden="true">💬</span>
+        <span class="line-cta__text">LINEで査定・申込</span>
+      </a>
     </div>
   </footer>
 
@@ -365,435 +170,13 @@
     </div>
   </div>
 
-  <!-- シュリンク種別選択 -->
-  <div id="shrinkSelector" class="shrink-sel" hidden>
-    <div class="shrink-sel__bd" id="shrinkSelectorBd"></div>
-    <div class="shrink-sel__panel" role="dialog" aria-modal="true" aria-label="シュリンク種別選択">
-      <div class="shrink-sel__title">どちらで申し込みますか？</div>
-      <button id="shrinkShrinkBtn" class="shrink-sel__btn" type="button">
-        <span id="shrinkShrinkLabel" class="shrink-sel__item">シュリンクあり</span>
-        <span id="shrinkShrinkPrice" class="shrink-sel__price"></span>
-      </button>
-      <button id="shrinkNoshrinkBtn" class="shrink-sel__btn" type="button">
-        <span id="shrinkNoshrinkLabel" class="shrink-sel__item">シュリンクなし</span>
-        <span id="shrinkNoshrinkPrice" class="shrink-sel__price"></span>
-      </button>
-      <button id="shrinkSelectorCancel" class="shrink-sel__cancel" type="button">キャンセル</button>
+  <!-- LINEフローティングボタン（旧AIチャット位置） -->
+  <a class="line-fab" href="https://line.me/R/ti/p/@niko_kaitori" target="_blank" rel="noopener noreferrer" aria-label="LINEで査定・質問">
+    <div class="line-fab__bubble">査定・質問はLINEへ！</div>
+    <div class="line-fab__char">
+      <img src="images/icon_130x130.png" alt="にこにこちゃん">
     </div>
-  </div>
-
-  <!-- カートモーダル -->
-  <div id="cartModal" class="cart-modal" hidden>
-    <div class="cart-modal__bd" id="cartModalBd"></div>
-    <div class="cart-modal__panel" role="dialog" aria-modal="true" aria-label="申込カート">
-      <div class="cart-modal__head">
-        <div class="cart-modal__title">申込カート</div>
-        <button id="cartModalClose" class="cart-modal__close" type="button">閉じる</button>
-      </div>
-      <div id="cartModalBody" class="cart-modal__body"></div>
-      <div id="cartModalFoot" class="cart-modal__foot"></div>
-    </div>
-  </div>
-
-  <!-- チェックアウトモーダル -->
-  <div id="checkoutModal" class="checkout-modal" hidden>
-    <div class="checkout-modal__bd" id="checkoutModalBd"></div>
-    <div class="checkout-modal__panel" role="dialog" aria-modal="true" aria-label="買取申込フォーム">
-      <div class="checkout-modal__head">
-        <div class="checkout-modal__title">買取申込フォーム</div>
-        <button id="checkoutModalClose" class="checkout-modal__close" type="button">閉じる</button>
-      </div>
-      <div class="checkout-modal__body">
-        <div id="checkoutForm">
-          <p class="checkout-modal__note">お名前と電話番号をご入力の上、申し込みボタンを押してください。</p>
-
-          <div id="modificationNotice" class="modification-notice" hidden></div>
-
-          <div id="checkoutCartPreview"></div>
-
-          <div id="savedMemberBanner" class="saved-member-banner" hidden>
-            <span>前回の情報を自動入力しました</span>
-            <button id="savedMemberClear" type="button" class="saved-member-clear">クリア</button>
-          </div>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label" for="co_last_name">氏名（姓）<span class="form-required">必須</span></label>
-              <input id="co_last_name" class="form-input" type="text" placeholder="田中" autocomplete="family-name">
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="co_first_name">氏名（名）<span class="form-required">必須</span></label>
-              <input id="co_first_name" class="form-input" type="text" placeholder="太郎" autocomplete="given-name">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label" for="co_last_kana">フリガナ（姓）<span class="form-required">必須</span></label>
-              <input id="co_last_kana" class="form-input" type="text" placeholder="タナカ" autocomplete="family-name-kana">
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="co_first_kana">フリガナ（名）<span class="form-required">必須</span></label>
-              <input id="co_first_kana" class="form-input" type="text" placeholder="タロウ" autocomplete="given-name-kana">
-            </div>
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_sex">性別<span class="form-required">必須</span></label>
-            <select id="co_sex" class="form-input form-select">
-              <option value="">選択してください</option>
-              <option value="MALE">男性</option>
-              <option value="FEMALE">女性</option>
-              <option value="OTHER">その他</option>
-            </select>
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_birthday">生年月日<span class="form-required">必須</span></label>
-            <input id="co_birthday" class="form-input" type="date" autocomplete="bday">
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_tel">電話番号<span class="form-required">必須</span></label>
-            <input id="co_tel" class="form-input" type="tel" placeholder="09012345678" autocomplete="tel" inputmode="numeric">
-            <div class="form-hint">ハイフン（-）なしで入力してください</div>
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_email">メールアドレス</label>
-            <input id="co_email" class="form-input" type="email" placeholder="example@domain.com" autocomplete="email">
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_line_name">LINE表示名<span class="form-required">必須</span></label>
-            <input id="co_line_name" class="form-input" type="text" placeholder="例：田中 太郎" autocomplete="nickname">
-            <div class="form-hint">LINEのプロフィール名（本名でなくて構いません）。ご連絡に使用します。</div>
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_comment">備考（任意）</label>
-            <textarea id="co_comment" class="form-input form-textarea" placeholder="何かあればご記入ください"></textarea>
-          </div>
-
-          <!-- 住所情報 -->
-          <div class="form-section-title">住所</div>
-          <p class="checkout-modal__note form-address-note">本人確認書類に記載されている住所を正確にご入力ください。</p>
-
-          <div class="form-row">
-            <div class="form-field" style="max-width:160px;">
-              <label class="form-label" for="co_postal_code">郵便番号<span class="form-required">必須</span></label>
-              <input id="co_postal_code" class="form-input" type="text" placeholder="1500043" autocomplete="postal-code" inputmode="numeric" maxlength="8">
-            </div>
-            <div class="form-field" style="display:flex;align-items:flex-end;">
-              <button type="button" id="postalLookupBtn" class="postal-lookup-btn">住所を自動入力</button>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label" for="co_prefecture">都道府県<span class="form-required">必須</span></label>
-              <select id="co_prefecture" class="form-input form-select" autocomplete="address-level1">
-                <option value="">選択してください</option>
-                <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option>
-                <option>山形県</option><option>福島県</option><option>茨城県</option><option>栃木県</option><option>群馬県</option>
-                <option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option><option>新潟県</option>
-                <option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
-                <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option>
-                <option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option>
-                <option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option>
-                <option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
-                <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option>
-                <option>鹿児島県</option><option>沖縄県</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_address1">市区町村・町名<span class="form-required">必須</span></label>
-            <input id="co_address1" class="form-input" type="text" placeholder="渋谷区道玄坂" autocomplete="address-level2">
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_address2">番地・建物名</label>
-            <input id="co_address2" class="form-input" type="text" placeholder="1-2-3 サンプルマンション101" autocomplete="address-line2">
-          </div>
-
-          <!-- 振込先口座情報 -->
-          <div class="form-section-title">振込先口座情報</div>
-          <p class="checkout-modal__note">査定後のお振込先口座をご入力ください。</p>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label" for="co_bank_name">銀行名<span class="form-required">必須</span></label>
-              <input id="co_bank_name" class="form-input" type="text" placeholder="○○銀行" autocomplete="off">
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="co_bank_branch">支店名<span class="form-required">必須</span></label>
-              <input id="co_bank_branch" class="form-input" type="text" placeholder="△△支店" autocomplete="off">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label" for="co_bank_type">口座種別<span class="form-required">必須</span></label>
-              <select id="co_bank_type" class="form-input form-select">
-                <option value="">選択してください</option>
-                <option value="普通">普通</option>
-                <option value="当座">当座</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="co_bank_number">口座番号<span class="form-required">必須</span></label>
-              <input id="co_bank_number" class="form-input" type="text" placeholder="1234567（7桁）" autocomplete="off" inputmode="numeric" maxlength="7">
-              <div class="form-hint">数字7桁。6桁の場合は先頭に0を自動補完します。ハイフン・スペース不要。</div>
-            </div>
-          </div>
-
-          <div class="form-field">
-            <label class="form-label" for="co_bank_holder">口座名義（カタカナ）<span class="form-required">必須</span></label>
-            <input id="co_bank_holder" class="form-input" type="text" placeholder="タナカ タロウ" autocomplete="off">
-          </div>
-
-          <div id="checkoutError" class="checkout-error" hidden></div>
-
-          <label class="age-confirm-label">
-            <input type="checkbox" id="ageConfirmCheck" class="selfie-confirm-box__check">
-            <span>私は<strong>18歳以上</strong>です（18歳未満のご利用はできません）</span>
-          </label>
-
-          <div class="selfie-confirm-box">
-            <div class="selfie-confirm-box__title">🤳 本人確認写真（セルフィー）について</div>
-            <ul class="selfie-confirm-box__list">
-              <li>申込完了後、<strong>本人確認書類を手に持った自撮り写真</strong>を専用フォームからご提出ください（古物営業法・非対面取引の本人確認）</li>
-              <li><strong>写真の提出が確認できない場合は取引ができません</strong></li>
-              <li>弊社到着後に取引不可となった場合の<strong>商品返送費用はお客様負担</strong>となります</li>
-              <li>eKYCをご利用の場合は不要です</li>
-            </ul>
-            <label class="selfie-confirm-box__label">
-              <input type="checkbox" id="selfieConfirmCheck" class="selfie-confirm-box__check">
-              <span>上記を確認しました。申込完了後にセルフィー写真を専用フォームから提出します</span>
-            </label>
-          </div>
-
-          <!-- 利用制限・審査ポリシー同意 -->
-          <div class="refusal-policy-box">
-            <div class="refusal-policy-box__title">⚠️ ご利用制限・審査について</div>
-            <ul class="refusal-policy-box__list">
-              <li>弊社は古物営業法および適法な事業運営のため、お申し込み内容・ご利用状況等に基づき、<strong>弊社および弊社の顧問弁護士を含む関係者による審査</strong>を行う場合があります</li>
-              <li>特に、在留資格をお持ちの外国籍のお客様が継続的にご利用される場合、在留資格・滞在目的・転売目的の有無等の確認が行われることがあります</li>
-              <li>審査の結果、<strong>申請後であっても</strong>弊社の判断によりご利用をお断りする場合があり、弊社は一切の責任を負いません</li>
-              <li>ご利用をお断りした場合、商品は<strong>着払い</strong>にてご返送いたします（返送費用はお客様のご負担となります）</li>
-            </ul>
-            <label class="refusal-policy-box__label">
-              <input type="checkbox" id="refusalPolicyCheck" class="selfie-confirm-box__check">
-              <span>上記の審査・ご利用制限について確認し、同意しました</span>
-            </label>
-          </div>
-
-          <button id="checkoutSubmit" class="checkout-submit" type="button" disabled>利用規約に同意して申し込む</button>
-        </div>
-
-        <div id="checkoutDone" class="checkout-done" hidden>
-          <div class="checkout-done__icon">✅</div>
-          <div class="checkout-done__title">お申し込みが完了しました</div>
-          <div class="checkout-done__text">ご利用いただきありがとうございました。</div>
-          <div class="checkout-done__email-notice">📧 ご登録のメールアドレスに見積書を送信しました。届いていない場合は迷惑メールフォルダもご確認ください。</div>
-
-          <!-- 次にやること -->
-          <div class="next-steps">
-            <div class="next-steps__title">📋 次にやること</div>
-            <ol class="next-steps__list">
-
-              <li class="next-steps__item">
-                <div class="next-steps__num">1</div>
-                <div class="next-steps__body">
-                  <div class="next-steps__label">荷物の中に入れるもの</div>
-
-                  <!-- eKYCあり（URLが設定されている場合のみ表示） -->
-                  <div id="ekycStep" hidden>
-                    <ul class="packing-list">
-                      <li class="packing-list__item">✅ 商品</li>
-                      <li class="packing-list__item">✅ この見積書（下の見積書を印刷して同封）</li>
-                    </ul>
-                    <a id="ekycStartBtn" class="ekyc-start-btn" href="#" target="_blank" rel="noopener noreferrer">🔐 本人確認（eKYC）を開始する →</a>
-                    <button id="ekycDoneBtn" class="ekyc-done-btn" type="button">すでに完了している</button>
-                    <button id="ekycDeclineBtn" class="next-steps__or-btn" type="button">eKYCを利用しない方はこちら ▼</button>
-                  </div>
-
-                  <!-- eKYC未使用時（eKYCなし=常時表示 / eKYCあり=折りたたみ） -->
-                  <div id="selfieFlow" class="selfie-flow">
-                    <ul class="packing-list">
-                      <li class="packing-list__item">✅ 商品</li>
-                      <li class="packing-list__item">✅ この見積書（下の見積書を印刷して同封）</li>
-                      <li class="packing-list__item">
-                        ✅ 本人確認書類
-                        <div class="packing-list__sub">初回：3か月以内の住民票または印鑑証明書写し（原本）＋ 本人確認書類<br>2回目以降：本人確認書類の写しのみ</div>
-                      </li>
-                    </ul>
-                    <div class="selfie-flow__block selfie-flow__block--selfie">
-                      <div class="selfie-flow__block-label">🤳 本人確認写真（セルフィー）を専用フォームから提出（荷物には入れません）</div>
-                      <ol class="selfie-flow__steps">
-                        <li>本人確認書類（免許証・マイナンバーカード等）を手に持つ</li>
-                        <li>顔と書類が両方はっきり写るよう自撮りする</li>
-                        <li>申込完了後に表示される専用フォームから提出（受付IDが自動入力されます）</li>
-                      </ol>
-                      <a id="selfieSendLineBtn" class="selfie-flow__line-btn" href="#" target="_blank" rel="noopener noreferrer" hidden>📤 LINEで写真を送る →</a>
-                      <p class="selfie-flow__law">※ 古物営業法（非対面取引）の規定による本人確認措置です</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li class="next-steps__item">
-                <div class="next-steps__num">2</div>
-                <div class="next-steps__body">
-                  <div class="next-steps__label">着払いで発送</div>
-                  <p class="next-steps__desc">ヤマト運輸の<strong>着払い・翌日午前着</strong>でご発送ください。</p>
-                </div>
-              </li>
-
-              <li class="next-steps__item">
-                <div class="next-steps__num">3</div>
-                <div class="next-steps__body">
-                  <div class="next-steps__label">追跡番号をLINEへ連絡</div>
-                  <p class="next-steps__desc">発送後、必ず<strong>追跡番号をLINEでご連絡</strong>ください。</p>
-                </div>
-              </li>
-
-            </ol>
-          </div>
-
-          <!-- 見積書 -->
-          <div class="receipt" id="receiptBlock">
-            <div class="receipt__header">
-              <div class="receipt__label">毎々、お世話になっております。御見積書を送付いたします。</div>
-              <div class="receipt__id-row">
-                受付ID：<span id="receiptId" class="receipt__id">—</span>
-              </div>
-            </div>
-
-            <div class="receipt__section-title">★ 買取見積書</div>
-            <table class="receipt__table" id="receiptTable">
-              <thead>
-                <tr>
-                  <th>商品名</th>
-                  <th class="receipt__th-num">数量</th>
-                  <th class="receipt__th-num">単価</th>
-                  <th class="receipt__th-num">小計</th>
-                </tr>
-              </thead>
-              <tbody id="receiptTbody"></tbody>
-            </table>
-
-            <div class="receipt__totals" id="receiptTotals"></div>
-
-            <div class="receipt__address">
-              <div class="receipt__address-label">【発送先】</div>
-              <div>〒940-0833　新潟県長岡市笹崎1-8-22 1階</div>
-              <div>株式会社AiGIVE　宛　TEL: 070-9126-7304</div>
-            </div>
-
-            <div class="receipt__notes">
-              <div class="receipt__notes-title">【注意事項】</div>
-              <ul class="receipt__notes-list">
-                <li>この見積書を<strong>印刷して商品と一緒に同封</strong>してください。</li>
-                <li>印刷が難しい場合は、スクリーンショットの分割でも可能です。</li>
-                <li>同封がない場合、査定が遅れることがあります。</li>
-                <li>発送後は必ず<strong>追跡番号をLINEでご連絡</strong>ください。</li>
-                <li>発送後のキャンセル・返品はお受けできません。</li>
-                <li>発送前に内容を変更したい場合は、<strong>受付ID <span class="receipt__id-inline">—</span> を添えてLINEにご連絡</strong>ください。</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="checkout-done__actions">
-            <button id="receiptPrintBtn" class="checkout-submit" type="button" onclick="window.print()">🖨️ 印刷する</button>
-            <button id="checkoutDoneClose" class="checkout-submit checkout-submit--outline" type="button">閉じる</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 利用規約モーダル -->
-  <div id="termsModal" class="terms-modal" hidden>
-    <div class="terms-modal__bd" id="termsModalBd"></div>
-    <div class="terms-modal__panel" role="dialog" aria-modal="true" aria-label="利用規約">
-      <div class="terms-modal__head">
-        <div class="terms-modal__title">利用規約</div>
-        <button id="termsModalClose" class="terms-modal__close" type="button">閉じる</button>
-      </div>
-      <div class="terms-modal__body" id="termsModalBody">
-        <!-- 利用規約本文：JSでGoogle Docs HTMLを取得しsrcdoc iframeとして描画 -->
-        <div class="terms-loading" id="termsLoading">読み込み中...</div>
-      </div>
-      <div class="terms-modal__foot">
-        <label class="terms-modal__confirm-label">
-          <input type="checkbox" id="termsReadCheck">
-          <span>利用規約を読み、内容に同意します</span>
-        </label>
-        <div class="terms-modal__foot-btns">
-          <button id="termsDeclineBtn" class="terms-modal__decline" type="button">キャンセル</button>
-          <button id="termsAgreeBtn" class="terms-modal__agree" type="button" disabled>同意して申し込む</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- トースト通知 -->
-  <div id="cartToast" class="cart-toast" aria-live="polite"></div>
-
-  <!-- AIチャットウィジェット -->
-  <div id="chatWidget" class="chat-widget">
-    <!-- 開閉ボタン -->
-    <button id="chatToggle" class="chat-toggle" type="button" aria-label="AIヘルプを開く">
-      <div class="chat-toggle__icon chat-toggle__icon--open">
-        <div class="chat-toggle__bubble">わからないことはここでチャットできます！</div>
-        <div class="chat-toggle__char">
-          <img src="images/icon_130x130.png" alt="にこにこちゃん">
-        </div>
-      </div>
-      <div class="chat-toggle__icon chat-toggle__icon--close" hidden>
-        <div class="chat-toggle__char">
-          <img src="images/icon_130x130.png" alt="にこにこちゃん">
-          <div class="chat-toggle__x">✕</div>
-        </div>
-      </div>
-    </button>
-
-    <!-- チャットパネル -->
-    <div id="chatPanel" class="chat-panel" hidden aria-label="AIヘルプチャット">
-      <div class="chat-panel__head">
-        <div class="chat-panel__headleft">
-          <div class="chat-panel__avatar">🤖</div>
-          <div>
-            <div class="chat-panel__title">にこにこBot</div>
-            <div class="chat-panel__subtitle">AI自動応答</div>
-          </div>
-        </div>
-        <button id="chatClose" class="chat-panel__close" type="button" aria-label="チャットを閉じる">✕</button>
-      </div>
-
-      <div id="chatMessages" class="chat-messages" role="log" aria-live="polite">
-        <!-- ウェルカムメッセージは JS で挿入 -->
-      </div>
-
-      <div id="chatQuickReplies" class="chat-quick-replies"></div>
-
-      <div class="chat-input-row">
-        <textarea
-          id="chatInput"
-          class="chat-input"
-          placeholder="質問を入力してください…"
-          rows="1"
-          maxlength="500"
-        ></textarea>
-        <button id="chatSend" class="chat-send" type="button" aria-label="送信">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
+  </a>
 
   <script src="app.js"></script>
 </body>
